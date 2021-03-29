@@ -32,6 +32,6 @@ Siga o todas as atividades abaixo.
 
 10) Implementar as operações de Alteração e Exclusão. Fique a vontade para fazer pequenos melhorias que achar interessante.
 
-11) Ao terminar o teste enviar por e-mail para o selecionador com URL do Github, e fazer um commit com o comentário; "Concluído".
+11) Ao terminar o teste enviar por e-mail para talentos@bussoladoinvestidor.com com URL do Github, e fazer um commit com o comentário; "Concluído".
 
 #Boa sorte!
