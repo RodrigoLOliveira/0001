@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Web.API.Repositories;
+using Web.API.Interfaces;
 
 namespace Web.API
 {
@@ -46,6 +48,10 @@ namespace Web.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Teste API", Version = "v1" });
             });
+
+
+            services.AddDbContext<WebContext>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

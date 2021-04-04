@@ -4,15 +4,6 @@ namespace Web.API.Models.Db
 {
     public partial class WebContext : DbContext
     {
-        public WebContext()
-        {
-        }
-
-        public WebContext(DbContextOptions<WebContext> options)
-            : base(options)
-        {
-        }
-
         public virtual DbSet<Cliente> Clientes { get; set; }
 
         public static string ConnectionString { get; set; }
@@ -29,6 +20,11 @@ namespace Web.API.Models.Db
         {
             modelBuilder.Entity<Cliente>().ToTable("Cliente");
 
+            modelBuilder.Entity<Cliente>(cliente =>
+            {
+                cliente.OwnsOne(e => e.Address).OwnsOne(e => e.Geo);
+                cliente.OwnsOne(e => e.Company);
+            });
         }
     }
 }

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Web.API.Tests
 {
-    public class TestController
+    public class ClienteControllerTest
     {
             [Fact]
             public void GetAllClients_ShouldReturnAllClients()

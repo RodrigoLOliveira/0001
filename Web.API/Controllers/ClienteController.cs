@@ -3,29 +3,33 @@ using Web.API.Models.Db;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Web.API.Interfaces;
+using System.Threading.Tasks;
 
 namespace Web.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ClienteController : ControllerBase
+    
+    public class ClienteController : GenericController
     {
-        private WebContext _context = null;
+        readonly WebContext _context;
+        readonly IClienteRepository clienteRepository;
+
+        public ClienteController(WebContext context, IClienteRepository clienteRepository)
+        {
+            _context = context;
+            this.clienteRepository = clienteRepository;
+        }
 
         [HttpGet]
-        public ActionResult Get()
+        public async Task<ActionResult> Get()
         {
             try
             {
-                using (_context = new WebContext())
-                {
-                    var collection = _context.Clientes;
-                    return Ok(collection?.ToList());
-                }
+                return Result(await clienteRepository.GetAllAsync());
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadResult(ex.Message);
             }
         }
     }
