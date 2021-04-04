@@ -7,26 +7,11 @@ let externalClient = new ApiExternalClient();
 export class ClienteService {
 
     get(_this, id) {
-        return client.get('/anuncio/' + id)
+        return client.get('/cliente/' + id)
             .then(res => res.data)
             .then(data => {
-                _this.setState({ id: data.id });
-                _this.setState({ marcaId: data.marcaId });
-                _this.setState({ marca: data.marca });
-                _this.setState({ modeloId: data.modeloId });
-                _this.setState({ modelo: data.modelo });
-                _this.setState({ versaoId: data.versaoId });
-                _this.setState({ versao: data.versao });
-                _this.setState({ ano: data.ano });
-                _this.setState({ quilometragem: data.quilometragem });
-                _this.setState({ observacao: data.observacao });
-                _this.setState({ listaMarcas: data.listaMarcas });
-                _this.setState({ listaModelos: data.listaModelos });
-                _this.setState({ listaVersoes: data.listaVersoes });
-                this.getMarca(_this, null);
-                this.getModelo(_this, null, data.marcaId);
-                this.getVersao(_this, null, data.modeloId);
-                return data;
+                const cliente = data.data
+                return cliente;
             }).catch(error => {
                 if (error.response === undefined) {
                     _this.showError("Erro", "Não foi possível consultar.")
@@ -36,11 +21,28 @@ export class ClienteService {
             });
     }
 
-    getAll(_this) {
-        return client.get('/anuncio')
+    searchByEmail(_this, email){
+        return client.get('/search?email=' + email)
+        .then(res => res.data)
+            .then(data => {
+                const cliente = data.data;
+                return cliente;
+            })
+            .catch(err => {
+                if (err.response === undefined) {
+                    _this.showError("Erro", "Não foi possível listar.")
+                } else {
+                    _this.showError("Erro", "Não foi possível listar. Detalhes: " + err.response)
+                }
+            })
+    }
+
+    getAll(_this, busca) {
+        return client.get('/cliente?clienteEmail=' + busca)
             .then(res => res.data)
             .then(data => {
-                _this.setState({ anuncios: data });
+                const cliente = data.data
+                _this.setState({clientes: cliente});
                 return data;
             }).catch(error => {
                 if (error.response === undefined) {
@@ -51,11 +53,10 @@ export class ClienteService {
             });
     }
 
-    post(_this) {
-        return client.post('/anuncio', _this.state)
+    post(_this, submitdata) {
+        return client.post('/cliente', submitdata)
             .then(res => res.data)
             .then(data => {
-                _this.consultar();
                 return data;
             }).catch(error => {
                 if (error.response === undefined) {
@@ -64,15 +65,42 @@ export class ClienteService {
                     console.log(error);
                     _this.showError("Erro", "Não foi possível salvar. Detalhes: " + Object.values(error.response.data))
                 }
+                return error.response;
             });
     }
 
-    put(_this) {
-
+    put(_this, id, submitdata) {
+        return client.put('/cliente/' + id, submitdata)
+        .then(res => res.data)
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            if (error.response === undefined) {
+                _this.showError("Erro", "Não foi possível salvar.")
+            } else {
+                console.log(error);
+                _this.showError("Erro", "Não foi possível salvar. Detalhes: " + Object.values(error.response.data))
+            }
+            return error.response;
+        });
     }
 
     delete(_this, id) {
-
+        return client.delete('/cliente/' + id)
+        .then(res => res.data)
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            if (error.response === undefined) {
+                _this.showError("Erro", "Não foi possível salvar.")
+            } else {
+                console.log(error);
+                _this.showError("Erro", "Não foi possível salvar. Detalhes: " + Object.values(error.response.data))
+            }
+            return error.response;
+        });
     }
 
 }

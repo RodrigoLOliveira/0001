@@ -17,6 +17,9 @@ import '@fullcalendar/timegrid/main.css';
 import './layout/layout.scss';
 import './App.scss';
 import { ClienteConsulta } from './components/Cliente/ClienteConsulta';
+import { ClienteCadastro } from './components/Cliente/ClienteCadastro';
+import { ClienteEditar } from './components/Cliente/ClienteEditar';
+
 
 class App extends Component {
 
@@ -94,7 +97,8 @@ class App extends Component {
                 label: 'Cliente', 
                 icon: 'pi pi-fw pi-sliders-h', 
                 items: [
-                    {label: 'Consultar', icon: 'pi pi-fw pi-th-large', to: '/clienteconsulta'}
+                    {label: 'Consultar', icon: 'pi pi-fw pi-th-large', to: '/clienteconsulta'},
+                    {label: 'Cadastrar', icon: 'pi pi-plus', to: '/clientecadastro'}
                 ]
             }
             
@@ -158,6 +162,8 @@ class App extends Component {
                     <Route path="/" exact component={Dashboard} />
                     <Route path="/login" component={Login} />
                     <Route path="/clienteconsulta" component={ClienteConsulta} />
+                    <Route path="/clientecadastro" component={ClienteCadastro} />
+                    <Route path="/clienteeditar" component={ClienteEditar} />
                 </div>
 
                 <AppFooter />

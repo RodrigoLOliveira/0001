@@ -11,7 +11,7 @@ namespace Web.API.Models.Db
         public int Id { get; set; }
 
         [MaxLength(100)]
-        [RegularExpression(@"^[A-Za-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", ErrorMessage = "Email inválido.")]
+        [RegularExpression(@"^[A-Za-z0-9._]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$", ErrorMessage = "Email inválido.")]
         [Required]
         public string Email { get; set; }
 

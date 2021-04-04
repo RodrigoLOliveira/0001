@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Web.API.Interfaces;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Web.API.Controllers
 {
@@ -19,32 +20,18 @@ namespace Web.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult<Result>> Search([FromQuery] string clienteEmail = "")
         {
             try
             {
-                var res = await clienteRepository.GetAllAsync();
+                List<Cliente> cliente;
 
-                if (res.Any())
-                    return Result(res);
+                if (string.IsNullOrEmpty(clienteEmail))
+                    cliente = await clienteRepository.GetAllAsync();
                 else
-                    return BadResult("Nenhum resultado encontrado.");
+                    cliente = await clienteRepository.GetAllAsync(e => e.Email.ToUpper().Contains(clienteEmail.ToUpper()));
 
-            }
-            catch (Exception ex)
-            {
-                return BadResult(ex.Message);
-            }
-        }
-
-        [HttpGet("{clienteEmail}")]
-        public async Task<ActionResult<Result>> GetByEmail(string clienteEmail)
-        {
-            try
-            {
-                var cliente = await clienteRepository.GetOneByEmailAsync(clienteEmail);
-
-                if (cliente != null)
+                if (cliente.Count > 0)
                     return Result(cliente);
                 else
                     return BadResult("Nenhum resultado encontrado.");
@@ -55,12 +42,12 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("Search")]
-        public async Task<ActionResult<Result>> GetOne([FromQuery] string email)
+        [HttpGet("{clienteId:int}")]
+        public async Task<ActionResult<Result>> GetById(int clienteId)
         {
             try
             {
-                var cliente = await clienteRepository.SearchClienteByEmailAsync(email);
+                var cliente = await clienteRepository.GetOneByIdAsync(clienteId);
 
                 if (cliente != null)
                     return Result(cliente);

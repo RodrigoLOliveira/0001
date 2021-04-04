@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace Web.API.Repositories
         {
             using (var http = new HttpClient())
             {
-                if (email.Length == 0)
+                if (string.IsNullOrWhiteSpace(email))
                     return null;
                 else if (email.Length == 1)
                     email = char.ToUpper(email[0]).ToString();
@@ -75,8 +76,16 @@ namespace Web.API.Repositories
 
         public void Update(Cliente cliente)
         {
-            _context.Clientes.Update(cliente);
-            _context.SaveChanges();
+            var emailIsValid = !_context.Clientes.Any(e => e.Email.ToUpper() == cliente.Email.ToUpper() && e.Id != cliente.Id);
+            if (emailIsValid)
+            {
+                _context.Clientes.Update(cliente);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Email já está sendo usado.");
+            }            
         }
 
         public async Task DeleteAsync(int clienteId)
@@ -94,6 +103,9 @@ namespace Web.API.Repositories
             }
         }
 
-        
+        public async Task<List<Cliente>> GetAllAsync(Expression<Func<Cliente, bool>> expression)
+        {
+            return await _context.Clientes?.Where(expression).ToListAsync();
+        }
     }
 }
