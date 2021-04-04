@@ -20,6 +20,11 @@ namespace Web.API.Repositories
             _context = context;
         }
 
+        public async Task<Cliente> GetOneByIdAsync(int id)
+        {
+            return await _context.Clientes?.FindAsync(id);
+        }
+
         public async Task<List<Cliente>> GetAllAsync()
         {
             return await _context.Clientes?.ToListAsync();
@@ -29,6 +34,13 @@ namespace Web.API.Repositories
         {
             using (var http = new HttpClient())
             {
+                if (email.Length == 0)
+                    return null;
+                else if (email.Length == 1)
+                    email = char.ToUpper(email[0]).ToString();
+                else
+                    email = char.ToUpper(email[0]) + email.Substring(1);
+
                 var get = await http.GetAsync($"{URI}?email={email}");
                 var content = await get.Content.ReadAsStringAsync();
 
@@ -40,9 +52,9 @@ namespace Web.API.Repositories
             }
         }
 
-        public async Task<Cliente> GetOneByIdAsync(int id)
+        public async Task<Cliente> GetOneByEmailAsync(string email)
         {
-            return await _context.Clientes.FindAsync(id);
+            return await _context.Clientes.FirstOrDefaultAsync(e => e.Email.ToUpper() == email.ToUpper());
         }
 
         public async Task<Cliente> AddAsync(Cliente cliente)
@@ -81,5 +93,7 @@ namespace Web.API.Repositories
                 throw new Exception("Usuário não encontrado.");
             }
         }
+
+        
     }
 }

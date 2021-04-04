@@ -10,5 +10,6 @@ namespace Web.API.Interfaces
     public interface IClienteRepository : IGenericRepository<Cliente>
     {
         Task<Cliente> SearchClienteByEmailAsync(string email);
+        Task<Cliente> GetOneByEmailAsync(string email);
     }
 }
