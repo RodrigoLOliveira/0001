@@ -1,14 +1,13 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using Web.API.Controllers;
 using Web.API.Models.Db;
+using Xunit;
 
 namespace Web.API.Tests
 {
-        [TestClass]
-        public class TestController
-        {
-            [TestMethod]
+    public class TestController
+    {
+            [Fact]
             public void GetAllClients_ShouldReturnAllClients()
             {
                 // Arrange

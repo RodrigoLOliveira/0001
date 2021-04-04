@@ -2,6 +2,7 @@
   "name": "clientes",
   "version": "1.0.0",
   "homepage": "/home",
+  "author": "Rodrigo Lima de Oliveira",
   "private": false,
   "repository": {
     "type": "git",

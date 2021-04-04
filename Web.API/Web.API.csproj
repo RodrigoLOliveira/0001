@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
 	<TargetLatestRuntimePatch>false</TargetLatestRuntimePatch>
+	<Authors>Rodrigo Lima de Oliveira</Authors>
   </PropertyGroup>
 
   <ItemGroup>
